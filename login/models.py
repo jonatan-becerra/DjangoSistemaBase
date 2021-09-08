@@ -48,3 +48,11 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+
+class Appointment(models.Model):
+    task = models.CharField(max_length=40)
+    date = models.DateTimeField()
+    status =models.CharField(max_length=40)
+    usuario = models.ForeignKey(User, related_name="appointments", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

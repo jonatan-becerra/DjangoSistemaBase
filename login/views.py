@@ -59,3 +59,6 @@ def registro(request):
 def logout(request):
     request.session.flush()
     return redirect('/')
+
+def add (request):
+    return redirect('/')
