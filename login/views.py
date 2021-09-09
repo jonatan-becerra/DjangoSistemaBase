@@ -3,6 +3,7 @@ from django.contrib import messages
 from time import gmtime, strftime
 from .models import *
 import bcrypt
+from datetime import date
 
 from .models import User
 
@@ -75,10 +76,18 @@ def edit (request):
     update.task= request.POST['new_task']
     update.date= request.POST['new_date']
     update.status= request.POST['new_status']
-    update.save()
+    update.save()     #guarda los cambios
     return render(request, 'home.html')
 
 def delete(request):
-    
+    Appointment.objects.filter(id=request.POST["task_id"]).delete()
     return redirect('/')
 
+def appointments(request):
+    appointments=Appointment.filter(date__range=["1900-01-01",date.today()])
+    past_appointments= Appointment.filter(date__range=[date.today(),"2050-01-01"])
+    context={
+        'appointment_list' : appointments,
+        'past_appointments' : past_appointments
+    }
+    render(request, 'home.html', context)
