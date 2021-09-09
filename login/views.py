@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from time import gmtime, strftime
-from models import *
+from .models import *
 import bcrypt
 
 from .models import User
@@ -68,14 +68,17 @@ def add (request):
         status=request.POST['task_status'],
         usuario=request.POST['user_id'] #crea la relacion del usuario con la cita
     )
-    return redirect('/')
+    return render(request, 'home.html')
 
 def edit (request):
     update =Appointment.objects.get(request.POST['task_id'])   #recibe el id de la tarea desde el input hidden
-    
-    return redirect('/')
+    update.task= request.POST['new_task']
+    update.date= request.POST['new_date']
+    update.status= request.POST['new_status']
+    update.save()
+    return render(request, 'home.html')
 
 def delete(request):
-
+    
     return redirect('/')
 
